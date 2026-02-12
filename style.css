@@ -1,0 +1,129 @@
+:root{
+    background-color: #30d31a;
+    --card-bg: #5d6580;
+    --text-main: #fff;
+    --text-sub: #000;
+}
+
+body{
+    background-color: var(--card-bg);
+    color: var(--text-main);
+    font-family: 'Segoe UI',sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+
+.bento-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    grid-auto-rows: 250px;
+
+    gap: 20px;
+    width: 100%;
+    max-width: 900px;
+}
+
+
+.item{
+    background: var(--card-bg);
+    border: 1px solid #30363d;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+
+}
+
+.item:hover{
+    transform: translateY(-5px);
+    border-color: var(---accent);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+.perfil{
+   
+    
+text-align: center;
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.status{
+    grid-column: span 2;
+
+}
+
+.links{
+    grid-column: span 2;
+}
+
+
+
+.avatar{
+   width: 100px;
+   height: 100px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    border: 3px solid var(---accent);
+}
+
+h1{
+    font-size: 1.5rem; margin: 5px 0; 
+    background: linear-gradient(90deg, #58a6ff, #bc8cf2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+}
+
+p{
+    color: var(--text-sub); margin: 5px 0;
+}
+
+a{
+    color: var(--text-main); text-decoration: none; font-weight: bold;
+}
+
+.projetos{
+    grid-column: span 2;
+    grid-row: span 2;
+    overflow: auto;
+}
+
+.projeto-card{
+   background: rgb(90, 128, 15);
+   padding: 15px;
+   border-radius: 12px;
+   margin-bottom: 10px;
+   border: 1px solid #30363d;
+}
+
+.projeto-card h4{
+    margin: 0 0 5px 0;
+   color: var(---accent);
+
+}
+
+.projeto-card p{
+    font-size: 0,85re;
+   margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+    .bento-grid{
+        grid-template-columns: 1fr;
+        grid-auto-rows: auto;
+    }
+
+    .perfil, .status, .links, .projetos{
+        grid-column: span 1;
+    }
+}
