@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Dragão Articulado Perseguidor</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: linear-gradient(#420277, #a33ff5);
+            background-size: cover;
+            height: 100vh;
+            width: 100vw;
+            cursor: crosshair; /* Muda o cursor para uma mira */
+        }
+
+        /* Classe base para todas as partes do dragão */
+        .parte {
+            position: absolute;
+            pointer-events: none;
+            z-index: 100;
+            transform-origin: center;
+            transition: transform 0.05s linear;
+        
+        }
+
+        /* Estilo específico do corpo (as bolinhas) */
+        .corpo {
+            position: fixed;
+            background-color: transparent;
+            background: linear-gradient(#a53030 #db6f6f);
+            top: auto;
+            left: 450px;
+            width: 80px;
+            height: 30px;
+            border-radius: 100% 100% 100% 100%;
+            border-bottom: 20px  solid #af0909;
+            border-top: 20px solid #e64848;
+            border-right: 30px solid transparent;
+                border-left: 100px solid transparent ;
+        }
+
+        .espinho {
+            position: absolute;
+            height: 70px;
+            width: 90px ;
+            top: -55px;
+            left: -10px;
+            border-radius: 100% 400% 400% 100%;
+            border-left: solid transparent 90px;
+            border-right: #b83838 solid 0px;
+            border-top: #c71717 solid 30px;
+            border-bottom: #ca5656 solid 30px;
+        }
+
+
+
+
+        /* Estilo da Cabeça */
+        .cabeca {
+            width: 90px;
+            height: 60px;
+            border-radius: 10% 70% 70% 10%; /* Formato mais alongado */
+            z-index: 109; /* Fica acima de tudo */
+            border-bottom: 15px solid #9c0000;
+            border-top: 15px solid #9c0000;
+            border-right: 30px solid #9c0000;
+            border-left: 80px solid transparent ;
+        }
+        .olho {
+            position: absolute;
+            width: 20px;
+            height: 10px;
+            background: linear-gradient(01deg, #000000, #b4b4b4);
+            border-radius: 0% 100% 0% 100%;
+            top:10px;
+            right: -4px;
+            box-shadow: 0 0 10px #494948;
+        }
+        .olho2 {
+            position: absolute;
+            width: 20px;
+            height: 10px;
+            background: linear-gradient(01deg, #000000, #b4b4b4);
+            border-radius: 100% 0% 100% 0%;
+            transform: rotate(180deg);
+            top:37px;
+            left: 73px;
+            box-shadow: 0 0 10px #494948;
+        }
+        .chifre {
+            position: fixed;
+            top: -6px;
+            right: 8px;
+            width: 0px;
+            height: 0px;
+            border-style: solid;
+ border-top: solid transparent  ;
+            
+            border-right: solid #9c0000 ;
+            border-bottom: solid transparent ;
+            border-left: solid transparent  ;
+ border-width: 40px 140px 25px 34px;
+      transform: rotate(0deg);
+      
+        }
+
+        .chifre2 {
+            position: fixed;
+            top: -37px;
+            right: 10px;
+                width: 110px;
+                height: 110px;
+                border-radius: 80% 40% 80% 100%;
+                border-bottom: 10px solid transparent ;
+                border-top: #9c0000 solid 14px;
+                border-left: 10px solid transparent ;
+                border-right: #9c0000 solid 14px;
+                transform: rotate(45deg);
+
+        }        
+
+        /* Estilo da Cauda */
+        .cauda {
+            width: 0px;
+            height: 0px;
+            border-style: solid;
+ border-top: solid transparent  ;
+            border-right: solid #df3f3f ;
+            border-bottom: solid transparent ;
+            border-left: solid transparent  ;
+ border-width: 20px 100px 30px 20px;
+           transform: rotate(100deg);
+            z-index: 98; /* Fica atrás do corpo */
+            box-shadow: #494948 0px 0px 0px;
+        }
+        /* Partículas de Fogo */
+        .fogo {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, #9b5d07, #ff4d00, transparent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 90;
+            filter: blur(3px);
+            animation: queimar 0.7s forwards;
+        }
+
+        @keyframes queimar {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(4) translate(-20px, -20px); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="dragao-container">
+        <div class="parte cabeca">
+            <div class="chifre"></div>
+            <div class="chifre2"></div>
+            <div class="olho"></div>
+            <div class="olho2"></div>
+        </div>
+        <div class="parte corpo">
+            </div>
+        </div>
+        <div class="parte espinho"></div>
+        <div class="parte corpo"></div>
+        <div class="parte espinho"></div>
+        <div class="parte corpo"></div>
+        <div class="parte espinho"></div>
+        <div class="parte corpo"></div>
+        <div class="parte cauda"></div>
+    </div>
+
+    <script>
+    const partes = document.querySelectorAll('.parte');
+    const totalPartes = partes.length;
+    
+    // CONFIGURAÇÕES DE DISTÂNCIA
+    const distMouseCabeca = 120; // Distância entre a ponta do mouse e a cabeça
+    const distCorpo = 90;       // Distância entre as partes do corpo
+    const suavidade = 0.2; 
+
+    let dadosPartes = [];
+    for (let i = 0; i < totalPartes; i++) {
+        dadosPartes.push({
+            x: window.innerWidth / 2,
+            y: window.innerHeight / 2,
+            angulo: 0
+        });
+    }
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.pageX;
+        mouseY = e.pageY;
+    });
+
+    function atualizar() {
+        // 1. LÓGICA DA CABEÇA (Afastada do Mouse)
+        let dxM = mouseX - dadosPartes[0].x;
+        let dyM = mouseY - dadosPartes[0].y;
+        let distAtualMouse = Math.sqrt(dxM * dxM + dyM * dyM);
+        
+        // A cabeça sempre olha para o mouse
+        dadosPartes[0].angulo = Math.atan2(dyM, dxM);
+
+        // Só move a cabeça se ela estiver longe do mouse além da distância permitida
+        if (distAtualMouse > distMouseCabeca) {
+            let forcaM = (distAtualMouse - distMouseCabeca) * suavidade;
+            dadosPartes[0].x += Math.cos(dadosPartes[0].angulo) * forcaM;
+            dadosPartes[0].y += Math.sin(dadosPartes[0].angulo) * forcaM;
+        }
+
+        // 2. LÓGICA DO CORPO (Física de Corrente)
+        for (let i = 1; i < totalPartes; i++) {
+            let lider = dadosPartes[i - 1];
+            let seguidor = dadosPartes[i];
+
+            let dx = lider.x - seguidor.x;
+            let dy = lider.y - seguidor.y;
+            let distanciaAtual = Math.sqrt(dx * dx + dy * dy);
+            
+            seguidor.angulo = Math.atan2(dy, dx);
+
+            if (distanciaAtual > distCorpo) {
+                let forcaC = (distanciaAtual - distCorpo) * suavidade;
+                seguidor.x += Math.cos(seguidor.angulo) * forcaC;
+                seguidor.y += Math.sin(seguidor.angulo) * forcaC;
+            }
+        }
+
+        // 3. APLICAÇÃO NO CSS
+        partes.forEach((parte, i) => {
+            let d = dadosPartes[i];
+            parte.style.left = d.x + 'px';
+            parte.style.top = d.y + 'px';
+            
+            let graus = d.angulo * 180 / Math.PI;
+            parte.style.transform = `translate(-50%, -50%) rotate(${graus}deg)`;
+
+            // Fogo saindo da boca (só se estiver se movendo)
+            if (i === 0 && distAtualMouse > distMouseCabeca + 5) {
+                if (Math.random() > 0.8) criarFogo(d.x, d.y);
+            }
+        });
+
+        requestAnimationFrame(atualizar);
+    }
+
+    function criarFogo(x, y) {
+        const f = document.createElement('div');
+        f.className = 'fogo';
+        f.style.left = x + 'px';
+        f.style.top = y + 'px';
+        document.body.appendChild(f);
+        setTimeout(() => f.remove(), 700);
+    }
+
+    atualizar();
+</script>
+</body>
+</html>
