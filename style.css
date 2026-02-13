@@ -1,8 +1,9 @@
 :root{
-    background-color: #30d31a;
-    --card-bg: #5d6580;
-    --text-main: #fff;
-    --text-sub: #000;
+    background-color: #28263b;
+    --card-bg: linear-gradient(135deg, #cc90ee 0%, #011a44 100%);
+    --text-main: #ffffff;
+    --text-sub: #ffffff;
+    
 }
 
 body{
@@ -14,8 +15,8 @@ body{
     align-items: center;
     min-height: 100vh;
     margin: 0;
+    
 }
-
 
 .bento-grid {
     display: grid;
@@ -23,16 +24,15 @@ body{
     grid-template-columns: repeat(4, 1fr);
 
     grid-auto-rows: 250px;
-
+   
     gap: 20px;
     width: 100%;
     max-width: 900px;
 }
 
-
 .item{
     background: var(--card-bg);
-    border: 1px solid #30363d;
+    border: 1px solid #295486;
     border-radius: 20px;
     padding: 20px;
     display: flex;
@@ -40,13 +40,16 @@ body{
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
+    
 
 }
+
 
 .item:hover{
     transform: translateY(-5px);
     border-color: var(---accent);
     box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    
 }
 
 .perfil{
@@ -66,19 +69,24 @@ text-align: center;
     grid-column: span 2;
 }
 
-
-
-.avatar{
-   width: 100px;
-   height: 100px;
-    border-radius: 50%;
-    margin-bottom: 10px;
-    border: 3px solid var(---accent);
+.img#avatar{
+    border-radius: 2px ;
 }
+
+#avatar {
+    width: 200px;
+    height: 250px;
+    border-radius: 50%; /* Deixa a foto redonda */
+    border: 3px solid #ffc1fa; /* Uma borda azul estilosa */
+    object-fit: cover;
+    display: block;
+    margin: 0 auto 15px auto;
+}
+
 
 h1{
     font-size: 1.5rem; margin: 5px 0; 
-    background: linear-gradient(90deg, #58a6ff, #bc8cf2);
+    background: linear-gradient(90deg, #fcfdfd, #8948d3);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 800;
@@ -99,21 +107,23 @@ a{
 }
 
 .projeto-card{
-   background: rgb(90, 128, 15);
+   background:linear-gradient(90deg, #000000 0%, #3472dd 100%);
    padding: 15px;
    border-radius: 12px;
    margin-bottom: 10px;
-   border: 1px solid #30363d;
+   border: 1px solid #87a7cc;
+   
+
 }
 
 .projeto-card h4{
     margin: 0 0 5px 0;
-   color: var(---accent);
+   color: var(--accent);
 
 }
 
 .projeto-card p{
-    font-size: 0,85re;
+    font-size: 0.85rem;
    margin-bottom: 10px;
 }
 
@@ -126,4 +136,14 @@ a{
     .perfil, .status, .links, .projetos{
         grid-column: span 1;
     }
+}
+
+
+#tsparticles {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Joga para trás dos cards */
+    top: 0;
+    left: 0;
 }
