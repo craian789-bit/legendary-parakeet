@@ -1,5 +1,7 @@
 
 
+
+
 async function buscarDadosGithub() {
     // Vamos usar o seu nome ou o do Diego para testar
     const username = "craian789-bit"; 
@@ -51,5 +53,36 @@ async function buscarProjetos() {
     }
 }
 
+
+    
+// Função para carregar as partículas
+function carregarParticulas() {
+    tsParticles.load({
+        id: "tsparticles",
+        options: {
+            particles: {
+                number: { value: 100 },
+                color: { value: "#58a6ff" },
+                links: {
+                    enable: true,
+                    distance: 100,
+                    color: "#164780",
+                    opacity: 0.3
+                },
+                move: { enable: true, speed: 1.5 },
+                size: { value: { min: 1, max: 3 } }
+            },
+            interactivity: {
+                events: {
+                    onHover: { enable: true, mode: "grab" }
+                }
+            }
+        }
+    });
+}
+
+
+
 buscarDadosGithub();
 buscarProjetos();
+carregarParticulas();
